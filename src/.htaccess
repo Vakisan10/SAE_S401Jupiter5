@@ -1,9 +1,0 @@
-# Bloquer accès direct à la racine du projet
-<FilesMatch ".*">
-    Require all denied
-</FilesMatch>
-
-# Autoriser uniquement le dossier public
-<FilesMatch "^$">
-    Require all granted
-</FilesMatch>

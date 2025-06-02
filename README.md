@@ -1,85 +1,54 @@
-# SAE Gestion des Colis
+# SAE S4.01 — Système de gestion des colis et commandes
+## IUT de Villetaneuse — Université Sorbonne Paris Nord
 
-Application de gestion des colis pour l'IUT.
+Plateforme de suivi des colis, demandes d'achat, devis et bons de commande.
 
-![Schema relationnel](./Documentation/Schema-relation.png)
+## Stack technique
 
-## Prerequis
+| Couche | Technologie |
+|---|---|
+| Backend | Python 3.12 + Flask |
+| Base de données | SQLite |
+| Authentification | JWT (flask-jwt-extended) |
+| Frontend | React 18 + Vite + Tailwind CSS |
 
-- PHP 8.3 minimum
-- Composer
-- Docker (optionnel, pour la base de donnees)
-
-## Installation
-
-### 1. Installer PHP et les extensions
-
-**Linux (Ubuntu/Debian)**
-```
-make install-linux
-```
-
-**MacOS**
-```
-make install-macos
-```
-
-**Windows**
-
-Telecharger PHP 8.3 : https://www.php.net/downloads.php
-
-Video for install PHP CLI Windows -> https://www.youtube.com/watch?v=n04w2SzGr_U
-
-Ou utiliser WSL avec Ubuntu si Windows ne marche pas.
-
-### 2. Configurer la base de donnees
-
-Avec Docker :
-```
-cd Database && docker compose -f docker-bd.yaml up -d
-```
-
-### 3. Configurer l'environnement
-
-Copier le fichier d'exemple .env.example et adapter les secrets à vous :
-```
-make env
-```
-
-Modifier `src/.env` selon votre configuration (mot de passe BDD, etc).
-
-### 4. Installer les dependances Composer
+## Architecture
 
 ```
-make i
+SAE_S401Jupiter5/
+├── app/                    # Backend Flask
+│   ├── controller/         # Routes API REST
+│   ├── service/            # Logique métier
+│   ├── dao/                # Accès base de données
+│   ├── model/              # Modèles de données
+│   ├── database/           # Schéma SQL + init
+│   └── static/             # Fichiers statiques (QR codes)
+├── frontend/               # Frontend React
+│   └── src/
+│       ├── components/     # Composants réutilisables
+│       ├── pages/          # Pages de l'application
+│       ├── services/       # Appels API
+│       ├── context/        # Contextes React (auth...)
+│       └── hooks/          # Hooks personnalisés
+├── config.py               # Configuration Flask
+├── run.py                  # Point d'entrée
+└── requirements.txt        # Dépendances Python
 ```
 
-### 5. Lancer le serveur
+## Lancement
 
-```
-make r
-```
-
-Le serveur demarre sur http://localhost:8000
-
-## Commandes utiles
-
-| Commande | Description |
-|----------|-------------|
-| `make install-linux` | Installe PHP et extensions (Ubuntu) |
-| `make install-macos` | Installe PHP et extensions (MacOS) |
-| `make env` | Copie le fichier .env.example |
-| `make i` | Installe les dependances Composer |
-| `make r` | Lance le serveur PHP |
-
-## Acces base de donnees Docker
-
-Entrer dans le conteneur :
-```
-docker exec -it sae_db sh
+### Backend
+```bash
+pip install -r requirements.txt
+python run.py
 ```
 
-Se connecter a MariaDB :
+### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
 ```
-mysql -u root -proot_password
-```
+
+## Membres du groupe
+- Jupiter 5
