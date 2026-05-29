@@ -193,6 +193,9 @@ $router->post('/admin/update-departement', 'AdminController', 'updateDepartement
 $router->get('/admin/devis', 'AdminController', 'devis');
 $router->get('/admin/commandes', 'AdminController', 'commandes');
 $router->get('/admin/colis', 'AdminController', 'colis');
+$router->post('/admin/supprimer-utilisateur', 'AdminController', 'supprimerUtilisateur');
+$router->post('/admin/supprimer-fournisseur', 'AdminController', 'supprimerFournisseur');
+$router->post('/admin/supprimer-departement', 'AdminController', 'supprimerDepartement');
 
 
 try {

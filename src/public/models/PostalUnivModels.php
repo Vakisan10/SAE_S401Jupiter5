@@ -107,7 +107,7 @@ class PostalUnivModels {
                 s.libelle AS statut,
                 c.date_reception
             FROM colis c
-            JOIN bon_commande b ON c.bon_commande_id = b.id_bon_commande
+            LEFT JOIN bon_commande b ON c.bon_commande_id = b.id_bon_commande
             LEFT JOIN departement d ON b.departement_id = d.id_departement
             JOIN statut_colis s ON c.statut_id = s.id_statut
             ORDER BY c.date_reception DESC

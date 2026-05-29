@@ -1,2 +1,11 @@
 vendor/
 .env
+
+# Variables d'environnement - ne jamais commiter
+src/.env
+
+# Dépendances
+src/vendor/
+
+# Logs
+*.log

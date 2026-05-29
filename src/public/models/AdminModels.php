@@ -322,9 +322,19 @@ class AdminModels {
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function supprimerUtilisateur(int $id) {
+        $req = $this->db->prepare("DELETE FROM utilisateur WHERE id_utilisateur = ?");
+        return $req->execute([$id]);
+    }
 
-    
+    public function supprimerFournisseur(int $id) {
+        $req = $this->db->prepare("DELETE FROM fournisseur WHERE id_fournisseur = ?");
+        return $req->execute([$id]);
+    }
 
+    public function supprimerDepartement(int $id) {
+        $req = $this->db->prepare("DELETE FROM departement WHERE id_departement = ?");
+        return $req->execute([$id]);
+    }
 
-    
 }

@@ -161,5 +161,36 @@ class AdminController {
         require __DIR__ . '/../views/admin/colis.php';
     }
 
+    /* ===== SUPPRESSIONS ===== */
+
+    public function supprimerUtilisateur() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['id_utilisateur'])) {
+            header('Location: /admin/utilisateurs');
+            exit;
+        }
+        $this->model->supprimerUtilisateur((int) $_POST['id_utilisateur']);
+        header('Location: /admin/utilisateurs?deleted=1');
+        exit;
+    }
+
+    public function supprimerFournisseur() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['id_fournisseur'])) {
+            header('Location: /admin/fournisseurs');
+            exit;
+        }
+        $this->model->supprimerFournisseur((int) $_POST['id_fournisseur']);
+        header('Location: /admin/fournisseurs?deleted=1');
+        exit;
+    }
+
+    public function supprimerDepartement() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['id_departement'])) {
+            header('Location: /admin/departements');
+            exit;
+        }
+        $this->model->supprimerDepartement((int) $_POST['id_departement']);
+        header('Location: /admin/departements?deleted=1');
+        exit;
+    }
+
     
-}
