@@ -1,14 +1,14 @@
 <?php
 // dao/DevisDAO.php
 
-require_once __DIR__ . '/../models/Model.php';
+require_once __DIR__ . '/../core/Database.php';
 
 class DevisDAO {
 
     private $db;
 
     public function __construct() {
-        $this->db = Model::getModel()->bd;
+        $this->db = Database::getInstance()->bd;
     }
 
     /* ===== LECTURE ===== */

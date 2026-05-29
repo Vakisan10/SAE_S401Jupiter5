@@ -33,8 +33,8 @@ require_once __DIR__ . '/../lib-tools/Auth/CasAuthenticator.php';
 require_once __DIR__ . '/../lib-tools/Auth/AuthMiddleware.php';
 require_once __DIR__ . '/../lib-tools/Auth/AuthorizationMiddleware.php';
 
-require_once __DIR__ . '/models/Model.php';
-require_once __DIR__ . '/models/UserRepository.php';
+require_once __DIR__ . '/core/Database.php';
+require_once __DIR__ . '/dao/UserRepository.php';
 
 require_once __DIR__ . '/controllers/PostalIutController.php';
 require_once __DIR__ . '/controllers/PostalUnivController.php';

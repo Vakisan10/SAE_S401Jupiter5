@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/Model.php';
+require_once __DIR__ . '/../core/Database.php';
 require_once __DIR__ . '/../../lib-tools/Auth/User.php';
 
 class UserRepository
@@ -10,7 +10,7 @@ class UserRepository
     private static function getDb(): PDO
     {
         if (self::$db === null) {
-            $model = Model::getModel();
+            $model = Database::getInstance();
             self::$db = $model->bd;
         }
         return self::$db;

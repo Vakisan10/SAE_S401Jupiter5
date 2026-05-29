@@ -1,14 +1,14 @@
 <?php
 // dao/UtilisateurDAO.php
 
-require_once __DIR__ . '/../models/Model.php';
+require_once __DIR__ . '/../core/Database.php';
 
 class UtilisateurDAO {
 
     private $db;
 
     public function __construct() {
-        $this->db = Model::getModel()->bd;
+        $this->db = Database::getInstance()->bd;
     }
 
     public function findAll(): array {

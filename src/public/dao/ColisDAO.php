@@ -1,7 +1,7 @@
 <?php
 // dao/ColisDAO.php
 
-require_once __DIR__ . '/../models/Model.php';
+require_once __DIR__ . '/../core/Database.php';
 require_once __DIR__ . '/../models/Colis.php';
 
 class ColisDAO {
@@ -9,7 +9,7 @@ class ColisDAO {
     private $db;
 
     public function __construct() {
-        $this->db = Model::getModel()->bd;
+        $this->db = Database::getInstance()->bd;
     }
 
     /* ===== LECTURE ===== */

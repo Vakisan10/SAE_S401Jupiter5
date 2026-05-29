@@ -1,16 +1,14 @@
 <?php
+// core/Database.php
 
-class Model
-{
-    private static $instance = null;
-    public $bd;
+class Database {
 
-    private function __construct()
-    {
-        // Importation de la config
+    private static ?Database $instance = null;
+    public PDO $bd;
+
+    private function __construct() {
         require_once __DIR__ . '/../../config/database.php';
 
-        // Connexion BD
         try {
             $options = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
             if (defined('Pdo\Mysql::ATTR_INIT_COMMAND')) {
@@ -24,17 +22,14 @@ class Model
         }
     }
 
-    public static function getModel()
-    {
+    public static function getInstance(): self {
         if (self::$instance === null) {
-            self::$instance = new Model();
+            self::$instance = new Database();
         }
         return self::$instance;
     }
 
-    // Pour préparer des requêtes SQL
-    public function prepare($sql)
-    {
+    public function prepare(string $sql): \PDOStatement {
         return $this->bd->prepare($sql);
     }
 }
