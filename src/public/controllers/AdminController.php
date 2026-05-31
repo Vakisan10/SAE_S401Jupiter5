@@ -192,5 +192,4 @@ class AdminController {
         header('Location: /admin/departements?deleted=1');
         exit;
     }
-
-    
+}
