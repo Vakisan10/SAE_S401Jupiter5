@@ -1,0 +1,29 @@
+/* PAGE COLIS REMIS */
+
+.tableau {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+    margin-top: 20px;
+}
+
+.tableau th {
+    background: #0d47a1;
+    color: white;
+    padding: 12px;
+    font-size: 14px;
+    text-align: left;
+}
+
+.tableau td {
+    padding: 12px;
+    border-bottom: 1px solid #eaeaea;
+    font-size: 14px;
+}
+
+.tableau tr:hover {
+    background: #f0f4ff;
+}

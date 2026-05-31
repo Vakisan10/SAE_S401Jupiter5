@@ -1,0 +1,263 @@
+/* ------------------------------ */
+/*          STYLE GLOBAL          */
+/* ------------------------------ */
+
+body.tableau-bord {
+    margin: 0;
+    font-family: "Inter", Arial, sans-serif;
+    background: #f5f7fb;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ============================= */
+/*        BARRE LATERALE         */
+/* ============================= */
+
+.barre-laterale {
+    width: 250px;
+    background: #0d47a1;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+}
+
+/* Zone logo + titre */
+.entete-barre {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.entete-barre .logo {
+    width: 75px;
+    height: 75px;
+    margin-bottom: 10px;
+}
+
+.entete-barre h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.entete-barre p {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+/* MENU */
+.menu {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.menu a {
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    opacity: 0.9;
+    margin-bottom: 8px;
+    transition: 0.2s;
+}
+
+.menu a:hover {
+    background: rgba(255,255,255,0.15);
+    opacity: 1;
+}
+
+.menu .actif {
+    background: rgba(255,255,255,0.25);
+    font-weight: 600;
+}
+
+/* Déconnexion alignée en bas */
+.deconnexion {
+    margin-top: auto;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.deconnexion a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.deconnexion a:hover {
+    opacity: 1;
+}
+
+/* ============================= */
+/*        CONTENU PRINCIPAL      */
+/* ============================= */
+
+.contenu {
+    flex: 1;
+    padding: 40px 60px;
+    overflow-y: scroll;
+}
+
+h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.sous-titre {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+/* ============================= */
+/*        ACTIONS RAPIDES        */
+/* ============================= */
+
+.actions-rapides {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.btn-action {
+    background: #2563eb;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-action:hover {
+    background: #1e4fc7;
+}
+
+/* ============================= */
+/*         CARTES STATS          */
+/* ============================= */
+
+.cartes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.carte {
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid #e3e6ef;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    transition: 0.2s;
+}
+
+.carte:hover {
+    transform: translateY(-3px);
+}
+
+.carte h3 {
+    margin: 0;
+    font-size: 15px;
+    color: #333;
+}
+
+.carte .valeur {
+    font-size: 32px;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #0d47a1;
+}
+
+/* ============================= */
+/*          TABLEAUX             */
+/* ============================= */
+
+.titre-section {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.tableau {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+}
+
+.tableau th {
+    background: #0d47a1;
+    color: white;
+    padding: 12px;
+    font-size: 14px;
+    text-align: left;
+}
+
+.tableau td {
+    padding: 12px;
+    border-bottom: 1px solid #eaeaea;
+    font-size: 14px;
+}
+
+.tableau tr:hover {
+    background: #f0f4ff;
+}
+
+
+
+
+
+/* ============================= */
+/*      RESPONSIVE MOBILE        */
+/* ============================= */
+
+@media (max-width: 1050px) {
+    .cartes {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    body.tableau-bord {
+        flex-direction: column;
+    }
+
+    .barre-laterale {
+        width: 100%;
+        flex-direction: row;
+        height: 85px;
+        padding: 10px;
+    }
+
+    .menu {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .cartes {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-danger {
+        background: #b90000;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+
+    }
+
+
+
+    
+}
