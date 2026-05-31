@@ -376,21 +376,6 @@ def voir_devis():
         return "Génération PDF non disponible (reportlab non installé)", 501
 
 
-@directeur_bp.route("/voir-devis")
-def voir_devis():
-    id = request.args.get("id", type=int)
-    if not id:
-        abort(400)
-    devis = DirecteurModels().get_devis_complet(id)
-    if not devis:
-        abort(404)
-    try:
-        from services.pdf_generator import PdfGenerator
-        pdf_bytes = PdfGenerator().generer_devis(devis)
-        filename = f"Devis_{str(id).zfill(4)}.pdf"
-        return Response(
-            pdf_bytes,
-
 @finance_bp.route("/voir-devis")
 def voir_devis():
     id = request.args.get("id", type=int)
