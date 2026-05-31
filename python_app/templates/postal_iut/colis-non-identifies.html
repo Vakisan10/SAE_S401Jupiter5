@@ -1,14 +1,57 @@
 {% extends "base.html" %}
-{% block title %}colis-non-identifies – Postal IUT{% endblock %}
-{% block sidebar_title %}Service Postal IUT{% endblock %}
+{% block title %}Colis Non Identifies – Postal Iut{% endblock %}
+{% block sidebar_title %}Postal IUT{% endblock %}
+{% block sidebar_subtitle %}Gestion des colis{% endblock %}
 {% block sidebar_nav %}
 <a href="/postal/dashboard">Tableau de bord</a>
-<a href="/postal/colis/recus">Colis reçus</a>
-<a href="/postal/colis/attente">En attente</a>
-<a href="/postal/colis/remis">Remis</a>
-<a href="/postal/colis/non-identifies">Non identifiés</a>
-<a href="/postal/colis/ajouter">Ajouter colis</a>
-<a href="/postal/colis/recherche">Recherche</a>
+<a href="/postal/colis-recus">Colis reçus</a>
+<a href="/postal/colis-attente">Colis en attente</a>
+<a href="/postal/colis-remis">Colis remis</a>
+<a href="/postal/colis-non-identifies">Non identifiés</a>
+<a href="/postal/ajouter-colis">Ajouter un colis</a>
 <a href="/postal/historique">Historique</a>
+<a href="/postal/recherche">Recherche</a>
 {% endblock %}
-{% block content %}<h1>colis-non-identifies</h1>{% endblock %}
+{% block content %}
+<div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Colis non identifies</h1>
+            <p class="page-subtitle">Colis recus sans destinataire identifie</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>N° suivi</th>
+                        <th>Date reception</th>
+                        <th>Commentaire</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not colis %}
+                        <tr>
+                            <td colspan="5" class="empty-state">Aucun colis non identifie</td>
+                        </tr>
+                    {% else %}
+                        {% for c in colis %}
+                        <tr>
+                            <td><a href="/postal/colis/details?id={{ c.id_colis }}" class="btn-link">#{{ c.id_colis }}</a></td>
+                            <td></td>
+                            <td>{{ c.date_reception }}</td>
+                            <td></td>
+                            <td>
+                                <a href="/postal/colis/assigner?id={{ c.id_colis }}" class="btn btn-sm btn-primary">Assigner</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

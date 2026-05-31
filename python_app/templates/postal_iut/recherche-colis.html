@@ -1,14 +1,72 @@
 {% extends "base.html" %}
-{% block title %}recherche-colis – Postal IUT{% endblock %}
-{% block sidebar_title %}Service Postal IUT{% endblock %}
+{% block title %}Recherche Colis – Postal Iut{% endblock %}
+{% block sidebar_title %}Postal IUT{% endblock %}
+{% block sidebar_subtitle %}Gestion des colis{% endblock %}
 {% block sidebar_nav %}
 <a href="/postal/dashboard">Tableau de bord</a>
-<a href="/postal/colis/recus">Colis reçus</a>
-<a href="/postal/colis/attente">En attente</a>
-<a href="/postal/colis/remis">Remis</a>
-<a href="/postal/colis/non-identifies">Non identifiés</a>
-<a href="/postal/colis/ajouter">Ajouter colis</a>
-<a href="/postal/colis/recherche">Recherche</a>
+<a href="/postal/colis-recus">Colis reçus</a>
+<a href="/postal/colis-attente">Colis en attente</a>
+<a href="/postal/colis-remis">Colis remis</a>
+<a href="/postal/colis-non-identifies">Non identifiés</a>
+<a href="/postal/ajouter-colis">Ajouter un colis</a>
 <a href="/postal/historique">Historique</a>
+<a href="/postal/recherche">Recherche</a>
 {% endblock %}
-{% block content %}<h1>recherche-colis</h1>{% endblock %}
+{% block content %}
+<div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Recherche de colis</h1>
+            <p class="page-subtitle">Trouvez un colis par numero de suivi, BC, departement ou ID</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <form method="get" style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <div class="search-container" style="flex: 1; min-width: 300px; margin-bottom: 0;">
+                <span class="search-icon-text">&#128269;</span>
+                <input type="text" name="q" class="search-input" placeholder="N° suivi, BC, departement, ID colis..." value="">
+            </div>
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+        </form>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="section-title">Resultats</h2>
+        </div>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>N° suivi</th>
+                        <th>Bon de commande</th>
+                        <th>Departement</th>
+                        <th>Date reception</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not resultats %}
+                        <tr>
+                            <td colspan="6" class="empty-state">Aucun resultat</td>
+                        </tr>
+                    {% else %}
+                        {% for c in resultats %}
+                        <tr>
+                            <td>
+                                <a href="/postal/colis/details?id={{ c.id_colis }}" class="btn-link">#{{ c.id_colis }}</a>
+                            </td>
+                            <td>{{ c.numero_suivi }}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{{ c.date_reception }}</td>
+                            <td><span class="badge badge-">{{ c.statut }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

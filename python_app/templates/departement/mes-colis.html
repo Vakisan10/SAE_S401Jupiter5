@@ -1,13 +1,93 @@
 {% extends "base.html" %}
-{% block title %}mes-colis – Département{% endblock %}
-{% block sidebar_title %}Mon Département{% endblock %}
+{% block title %}Mes Colis – Departement{% endblock %}
+{% block sidebar_title %}Département{% endblock %}
+{% block sidebar_subtitle %}Gestion des commandes{% endblock %}
 {% block sidebar_nav %}
 <a href="/departement/dashboard">Tableau de bord</a>
-<a href="/departement/creer-devis">Créer un devis</a>
 <a href="/departement/mes-devis">Mes devis</a>
-<a href="/departement/bons-commande">Bons de commande</a>
+<a href="/departement/mes-bons-commande">Mes bons de commande</a>
 <a href="/departement/mes-colis">Mes colis</a>
-<a href="/departement/budget">Budget</a>
+<a href="/departement/creer-devis">Créer un devis</a>
 <a href="/departement/fournisseurs">Fournisseurs</a>
+<a href="/departement/budget">Budget</a>
 {% endblock %}
-{% block content %}<h1>mes-colis</h1>{% endblock %}
+{% block content %}
+<div class="page-header-simple">
+        <a href="/departement/dashboard" class="back-button-simple">
+            <span class="back-arrow">&larr;</span>
+            Retour
+        </a>
+    </div>
+
+    <div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Mes Colis</h1>
+            <p class="page-subtitle">Suivi de vos livraisons</p>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <span class="search-icon-text">&#128269;</span>
+        <input type="text" class="search-input" placeholder="Rechercher par numero de suivi, BC ou statut..." id="rechercheColis" onkeyup="filtrerColis()">
+    </div>
+
+    
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-label">Total colis</span>
+            <div class="stat-value">{{ totalColis }}</div>
+        </div>
+        <div class="stat-card stat-blue">
+            <span class="stat-label">En transit</span>
+            <div class="stat-value">{{ enTransit }}</div>
+        </div>
+        <div class="stat-card stat-warning">
+            <span class="stat-label">En attente</span>
+            <div class="stat-value">{{ enAttente }}</div>
+        </div>
+        <div class="stat-card stat-success">
+            <span class="stat-label">Livres</span>
+            <div class="stat-value">{{ livres }}</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="section-title">Liste des colis</h2>
+            <span class="section-subtitle">{{ totalColis }} colis trouve(s)</span>
+        </div>
+
+        <div class="table-container">
+            <table class="data-table" id="tableauColis">
+                <thead>
+                    <tr>
+                        <th>N° Suivi</th>
+                        <th>Bon de commande</th>
+                        <th>Date reception</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not colis %}
+                        <tr>
+                            <td colspan="4" class="empty-state">Aucun colis trouve</td>
+                        </tr>
+                    {% else %}
+                        {% for c in colis %}
+                            <tr class="ligne-colis">
+                                <td><strong></strong></td>
+                                <td>{{ c.numero_commande }}</td>
+                                <td></td>
+                                <td>
+                                    <?php $statutAffichage = $c['statut'] === 'Retire' ? 'Livre' : $c['statut']; ?>
+                                    <span class="badge badge-">{{ statutAffichage }}</span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

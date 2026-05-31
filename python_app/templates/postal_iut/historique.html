@@ -1,14 +1,57 @@
 {% extends "base.html" %}
-{% block title %}historique – Postal IUT{% endblock %}
-{% block sidebar_title %}Service Postal IUT{% endblock %}
+{% block title %}Historique – Postal Iut{% endblock %}
+{% block sidebar_title %}Postal IUT{% endblock %}
+{% block sidebar_subtitle %}Gestion des colis{% endblock %}
 {% block sidebar_nav %}
 <a href="/postal/dashboard">Tableau de bord</a>
-<a href="/postal/colis/recus">Colis reçus</a>
-<a href="/postal/colis/attente">En attente</a>
-<a href="/postal/colis/remis">Remis</a>
-<a href="/postal/colis/non-identifies">Non identifiés</a>
-<a href="/postal/colis/ajouter">Ajouter colis</a>
-<a href="/postal/colis/recherche">Recherche</a>
+<a href="/postal/colis-recus">Colis reçus</a>
+<a href="/postal/colis-attente">Colis en attente</a>
+<a href="/postal/colis-remis">Colis remis</a>
+<a href="/postal/colis-non-identifies">Non identifiés</a>
+<a href="/postal/ajouter-colis">Ajouter un colis</a>
 <a href="/postal/historique">Historique</a>
+<a href="/postal/recherche">Recherche</a>
 {% endblock %}
-{% block content %}<h1>historique</h1>{% endblock %}
+{% block content %}
+<div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Historique global</h1>
+            <p class="page-subtitle">Dernieres actions effectuees sur tous les colis</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Colis</th>
+                        <th>N° commande</th>
+                        <th>N° suivi</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not historique %}
+                        <tr>
+                            <td colspan="5" class="empty-state">Aucun historique disponible</td>
+                        </tr>
+                    {% else %}
+                        {% for h in historique %}
+                        <tr>
+                            <td>{{ h.date_action }}</td>
+                            <td>
+                                <a href="/postal/colis/details?id={{ h.colis_id }}" class="btn-link">#{{ h.colis_id }}</a>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td><span class="badge">{{ h.action }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

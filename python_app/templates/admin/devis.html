@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-{% block title %}devis – Admin{% endblock %}
+{% block title %}Devis – Admin{% endblock %}
 {% block sidebar_title %}Administrateur{% endblock %}
+{% block sidebar_subtitle %}Gestion du système{% endblock %}
 {% block sidebar_nav %}
 <a href="/admin/dashboard">Tableau de bord</a>
 <a href="/admin/utilisateurs">Utilisateurs</a>
@@ -9,4 +10,66 @@
 <a href="/admin/devis">Tous les devis</a>
 <a href="/admin/colis">Tous les colis</a>
 {% endblock %}
-{% block content %}<h1>devis</h1>{% endblock %}
+{% block content %}
+<div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Tous les devis</h1>
+            <p class="page-subtitle">Vue globale de l'ensemble des devis du systeme</p>
+        </div>
+    </div>
+
+    
+    <div class="stats-grid">
+        {% for s in stats %}
+        <div class="stat-card">
+            <div class="stat-value">{{ s.total }}</div>
+            <div class="stat-label"></div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="section">
+        <div class="search-card">
+            <form method="get" class="search-form">
+                <input type="text" name="q" class="form-input" placeholder="Rechercher un devis (objet, departement, fournisseur, statut)" value="">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Objet</th>
+                        <th>Departement</th>
+                        <th>Fournisseur</th>
+                        <th>Montant</th>
+                        <th>Statut</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not devis %}
+                        <tr><td colspan="7" class="empty-state">Aucun devis trouve</td></tr>
+                    {% else %}
+                        {% for d in devis %}
+                        <tr>
+                            <td>#{{ d.id_devis }}</td>
+                            <td><strong>{{ d.objet }}</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td><span class="montant"> EUR</span></td>
+                            <td><span class="badge badge-"></span></td>
+                            <td>{{ d.date_demande }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

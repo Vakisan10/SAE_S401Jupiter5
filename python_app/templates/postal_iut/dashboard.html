@@ -1,14 +1,86 @@
 {% extends "base.html" %}
-{% block title %}dashboard – Postal IUT{% endblock %}
-{% block sidebar_title %}Service Postal IUT{% endblock %}
+{% block title %}Dashboard – Postal Iut{% endblock %}
+{% block sidebar_title %}Postal IUT{% endblock %}
+{% block sidebar_subtitle %}Gestion des colis{% endblock %}
 {% block sidebar_nav %}
 <a href="/postal/dashboard">Tableau de bord</a>
-<a href="/postal/colis/recus">Colis reçus</a>
-<a href="/postal/colis/attente">En attente</a>
-<a href="/postal/colis/remis">Remis</a>
-<a href="/postal/colis/non-identifies">Non identifiés</a>
-<a href="/postal/colis/ajouter">Ajouter colis</a>
-<a href="/postal/colis/recherche">Recherche</a>
+<a href="/postal/colis-recus">Colis reçus</a>
+<a href="/postal/colis-attente">Colis en attente</a>
+<a href="/postal/colis-remis">Colis remis</a>
+<a href="/postal/colis-non-identifies">Non identifiés</a>
+<a href="/postal/ajouter-colis">Ajouter un colis</a>
 <a href="/postal/historique">Historique</a>
+<a href="/postal/recherche">Recherche</a>
 {% endblock %}
-{% block content %}<h1>dashboard</h1>{% endblock %}
+{% block content %}
+<div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Tableau de bord</h1>
+            <p class="page-subtitle">Vue d'ensemble des colis du service postal IUT</p>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card stat-blue">
+            <span class="stat-label">Recus a l'IUT</span>
+            <div class="stat-value">{{ stats.recus }}</div>
+            <div class="stat-description">Colis recus</div>
+        </div>
+
+        <div class="stat-card stat-warning">
+            <span class="stat-label">En attente</span>
+            <div class="stat-value">{{ stats.en_attente }}</div>
+            <div class="stat-description">A retirer</div>
+        </div>
+
+        <div class="stat-card stat-success">
+            <span class="stat-label">Retires</span>
+            <div class="stat-value">{{ stats.retires }}</div>
+            <div class="stat-description">Colis livres</div>
+        </div>
+
+        <div class="stat-card stat-danger">
+            <span class="stat-label">Non identifies</span>
+            <div class="stat-value">{{ stats.non_identifies }}</div>
+            <div class="stat-description">A traiter</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="section-title">Derniers colis recus</h2>
+            <a href="/postal/colis/recus" class="btn-link">Voir tout</a>
+        </div>
+
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>N° suivi</th>
+                        <th>Departement</th>
+                        <th>Date reception</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not colis %}
+                        <tr>
+                            <td colspan="5" class="empty-state">Aucun colis trouve</td>
+                        </tr>
+                    {% else %}
+                        {% for c in colis %}
+                        <tr>
+                            <td><a href="/postal/colis/details?id={{ c.id_colis }}" class="btn-link">#{{ c.id_colis }}</a></td>
+                            <td>{{ c.numero_suivi }}</td>
+                            <td></td>
+                            <td>{{ c.date_reception }}</td>
+                            <td><span class="badge badge-">{{ c.statut }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

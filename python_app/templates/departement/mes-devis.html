@@ -1,13 +1,112 @@
 {% extends "base.html" %}
-{% block title %}mes-devis – Département{% endblock %}
-{% block sidebar_title %}Mon Département{% endblock %}
+{% block title %}Mes Devis – Departement{% endblock %}
+{% block sidebar_title %}Département{% endblock %}
+{% block sidebar_subtitle %}Gestion des commandes{% endblock %}
 {% block sidebar_nav %}
 <a href="/departement/dashboard">Tableau de bord</a>
-<a href="/departement/creer-devis">Créer un devis</a>
 <a href="/departement/mes-devis">Mes devis</a>
-<a href="/departement/bons-commande">Bons de commande</a>
+<a href="/departement/mes-bons-commande">Mes bons de commande</a>
 <a href="/departement/mes-colis">Mes colis</a>
-<a href="/departement/budget">Budget</a>
+<a href="/departement/creer-devis">Créer un devis</a>
 <a href="/departement/fournisseurs">Fournisseurs</a>
+<a href="/departement/budget">Budget</a>
 {% endblock %}
-{% block content %}<h1>mes-devis</h1>{% endblock %}
+{% block content %}
+<div class="page-header-simple">
+        <a href="/departement/dashboard" class="back-button-simple">
+            <span class="back-arrow">&larr;</span>
+            Retour
+        </a>
+    </div>
+
+    <div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Mes Devis</h1>
+            <p class="page-subtitle">Historique complet de vos devis</p>
+        </div>
+        <button class="btn btn-primary" onclick="window.location.href='/departement/creer-devis'">Nouveau devis</button>
+    </div>
+
+    <div class="search-container">
+        <span class="search-icon-text">&#128269;</span>
+        <input type="text" class="search-input" placeholder="Rechercher par objet, fournisseur ou statut..." id="searchDevis" onkeyup="filterDevis()">
+    </div>
+
+    <?php
+    $totalDevis = isset($devis) ? count($devis) : 0;
+    $enAttente = 0;
+    $valides = 0;
+    $rejetes = 0;
+    if (isset($devis)) {
+        foreach ($devis as $d) {
+            if ($d['statut'] === 'en_attente') $enAttente++;
+            if (in_array($d['statut'], ['valide_finance', 'signe_directeur'])) $valides++;
+            if ($d['statut'] === 'rejete_finance') $rejetes++;
+        }
+    }
+    ?>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-label">Total devis</span>
+            <div class="stat-value">{{ totalDevis }}</div>
+        </div>
+        <div class="stat-card stat-warning">
+            <span class="stat-label">En attente</span>
+            <div class="stat-value">{{ enAttente }}</div>
+        </div>
+        <div class="stat-card stat-success">
+            <span class="stat-label">Valides</span>
+            <div class="stat-value">{{ valides }}</div>
+        </div>
+        
+        <div class="stat-card stat-danger">
+            <span class="stat-label">Rejetes</span>
+            <div class="stat-value">{{ rejetes }}</div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="section-title">Liste des devis</h2>
+            <span class="section-subtitle">{{ totalDevis }} devis trouve(s)</span>
+        </div>
+
+        <div class="table-container">
+            <table class="data-table" id="devisTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Objet</th>
+                        <th>Fournisseur</th>
+                        <th>Montant estime</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not devis %}
+                        <tr>
+                            <td colspan="5" class="empty-state">Aucun devis trouve</td>
+                        </tr>
+                    {% else %}
+                        {% for d in devis %}
+                            <tr class="devis-row">
+                                <td></td>
+                                <td><strong>{{ d.objet }}</strong></td>
+                                <td>{{ d.fournisseur_nom }}</td>
+                                <td><span class="montant"> EUR</span></td>
+                                <td>
+                                    
+                                    <span class="badge badge-">
+                                        
+                                    </span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

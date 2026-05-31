@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-{% block title %}colis – Admin{% endblock %}
+{% block title %}Colis – Admin{% endblock %}
 {% block sidebar_title %}Administrateur{% endblock %}
+{% block sidebar_subtitle %}Gestion du système{% endblock %}
 {% block sidebar_nav %}
 <a href="/admin/dashboard">Tableau de bord</a>
 <a href="/admin/utilisateurs">Utilisateurs</a>
@@ -9,4 +10,66 @@
 <a href="/admin/devis">Tous les devis</a>
 <a href="/admin/colis">Tous les colis</a>
 {% endblock %}
-{% block content %}<h1>colis</h1>{% endblock %}
+{% block content %}
+<div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Tous les colis</h1>
+            <p class="page-subtitle">Vision globale et tracabilite complete des colis</p>
+        </div>
+    </div>
+
+    
+    <div class="stats-grid">
+        {% for s in stats %}
+        <div class="stat-card">
+            <div class="stat-value">{{ s.total }}</div>
+            <div class="stat-label">{{ s.statut }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="section">
+        <div class="search-card">
+            <form method="get" class="search-form">
+                <input type="text" name="q" class="form-input" placeholder="Recherche : n° suivi, BC, departement, statut" value="">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>N° suivi</th>
+                        <th>Bon de commande</th>
+                        <th>Departement</th>
+                        <th>Statut</th>
+                        <th>Date reception</th>
+                        <th>Date retrait</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not colis %}
+                        <tr><td colspan="7" class="empty-state">Aucun colis trouve</td></tr>
+                    {% else %}
+                        {% for c in colis %}
+                        <tr>
+                            <td>#{{ c.id_colis }}</td>
+                            <td><strong></strong></td>
+                            <td></td>
+                            <td></td>
+                            <td><span class="badge badge-">{{ c.statut }}</span></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

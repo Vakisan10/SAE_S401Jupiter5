@@ -1,13 +1,111 @@
 {% extends "base.html" %}
-{% block title %}mes-bons-commande – Département{% endblock %}
-{% block sidebar_title %}Mon Département{% endblock %}
+{% block title %}Mes Bons Commande – Departement{% endblock %}
+{% block sidebar_title %}Département{% endblock %}
+{% block sidebar_subtitle %}Gestion des commandes{% endblock %}
 {% block sidebar_nav %}
 <a href="/departement/dashboard">Tableau de bord</a>
-<a href="/departement/creer-devis">Créer un devis</a>
 <a href="/departement/mes-devis">Mes devis</a>
-<a href="/departement/bons-commande">Bons de commande</a>
+<a href="/departement/mes-bons-commande">Mes bons de commande</a>
 <a href="/departement/mes-colis">Mes colis</a>
-<a href="/departement/budget">Budget</a>
+<a href="/departement/creer-devis">Créer un devis</a>
 <a href="/departement/fournisseurs">Fournisseurs</a>
+<a href="/departement/budget">Budget</a>
 {% endblock %}
-{% block content %}<h1>mes-bons-commande</h1>{% endblock %}
+{% block content %}
+<div class="page-header-simple">
+        <a href="/departement/dashboard" class="back-button-simple">
+            <span class="back-arrow">&larr;</span>
+            Retour
+        </a>
+    </div>
+
+    <div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Mes Bons de Commande</h1>
+            <p class="page-subtitle">Historique complet de vos commandes</p>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <span class="search-icon-text">&#128269;</span>
+        <input type="text" class="search-input" placeholder="Rechercher par numero, fournisseur ou statut..." id="searchCommandes" onkeyup="filterCommandes()">
+    </div>
+
+    <?php
+    $totalCommandes = isset($bons) ? count($bons) : 0;
+    $enAttente = 0;
+    $signes = 0;
+    $montantTotal = 0;
+    if (isset($bons)) {
+        foreach ($bons as $c) {
+            if ($c['statut'] === 'en_preparation') $enAttente++;
+            if ($c['statut'] === 'signe') $signes++;
+            $montantTotal += $c['montant_estime'];
+        }
+    }
+    ?>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-label">Total commandes</span>
+            <div class="stat-value">{{ totalCommandes }}</div>
+        </div>
+        <div class="stat-card stat-warning">
+            <span class="stat-label">En attente</span>
+            <div class="stat-value">{{ enAttente }}</div>
+        </div>
+        <div class="stat-card stat-blue">
+            <span class="stat-label">Signes</span>
+            <div class="stat-value">{{ signes }}</div>
+        </div>
+        <div class="stat-card stat-success">
+            <span class="stat-label">Montant total</span>
+            <div class="stat-value" style="font-size: 24px;"> EUR</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="section-title">Liste des bons de commande</h2>
+            <span class="section-subtitle">{{ totalCommandes }} bon(s) de commande trouve(s)</span>
+        </div>
+
+        <div class="table-container">
+            <table class="data-table" id="commandesTable">
+                <thead>
+                    <tr>
+                        <th>N° Commande</th>
+                        <th>Date</th>
+                        <th>Fournisseur</th>
+                        <th>Montant</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not bons %}
+                        <tr>
+                            <td colspan="5" class="empty-state">Aucun bon de commande trouve</td>
+                        </tr>
+                    {% else %}
+                        {% for cmd in bons %}
+                            <tr class="commande-row">
+                                <td><strong>{{ cmd.numero_commande }}</strong></td>
+                                <td></td>
+                                <td>{{ cmd.fournisseur_nom }}</td>
+                                <td><span class="montant"> EUR</span></td>
+                                <td>
+                                    <span class="badge badge-{{ cmd.statut }}">
+                                        <?php
+                                        $statutLabels = ['en_preparation' => 'En preparation', 'signe' => 'Signe', 'envoye' => 'Envoye', 'livre' => 'Livre', 'annule' => 'Annule'];
+                                        echo $statutLabels[$cmd['statut']] ?? ucfirst(str_replace('_', ' ', $cmd['statut']));
+                                        ?>
+                                    </span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

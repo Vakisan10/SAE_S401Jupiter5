@@ -1,10 +1,107 @@
 {% extends "base.html" %}
-{% block title %}dashboard – Finance{% endblock %}
-{% block sidebar_title %}Service Financier{% endblock %}
+{% block title %}Dashboard – Finance{% endblock %}
+{% block sidebar_title %}Finance{% endblock %}
+{% block sidebar_subtitle %}Gestion budgétaire{% endblock %}
 {% block sidebar_nav %}
 <a href="/finance/dashboard">Tableau de bord</a>
-<a href="/finance/devis">Devis à vérifier</a>
+<a href="/finance/devis-a-verifier">Devis à vérifier</a>
 <a href="/finance/bons-commande">Bons de commande</a>
 <a href="/finance/budgets">Budgets</a>
 {% endblock %}
-{% block content %}<h1>dashboard</h1>{% endblock %}
+{% block content %}
+<div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Tableau de bord</h1>
+            <p class="page-subtitle">Suivi budgetaire et validation des devis</p>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card stat-warning">
+            <span class="stat-label">Devis en attente</span>
+            <div class="stat-value">{{ stats.devis_attente }}</div>
+            <div class="stat-description">A verifier</div>
+        </div>
+
+        <div class="stat-card stat-blue">
+            <span class="stat-label">Bons de commande</span>
+            <div class="stat-value">{{ stats.bons_commande }}</div>
+            <div class="stat-description">Total</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="section-title">Budgets des departements</h2>
+            <a href="/finance/budgets" class="btn-link">Voir tout</a>
+        </div>
+
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Departement</th>
+                        <th>Budget total</th>
+                        <th>Budget utilise</th>
+                        <th>Restant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not budgets %}
+                        <tr><td colspan="4" class="empty-state">Aucun budget trouve</td></tr>
+                    {% else %}
+                        {% for b in budgets %}
+                        <tr>
+                            <td><strong>{{ b.nom }}</strong></td>
+                            <td> EUR</td>
+                            <td> EUR</td>
+                            <td><span class="montant"> EUR</span></td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="section-title">Devis a verifier</h2>
+            <a href="/finance/devis" class="btn-link">Voir tout</a>
+        </div>
+
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Objet</th>
+                        <th>Departement</th>
+                        <th>Montant</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not devis %}
+                        <tr><td colspan="5" class="empty-state">Aucun devis en attente</td></tr>
+                    {% else %}
+                        {% for d in devis %}
+                        <tr>
+                            <td>#{{ d.id_devis }}</td>
+                            <td><strong>{{ d.objet }}</strong></td>
+                            <td>{{ d.departement }}</td>
+                            <td><span class="montant"> EUR</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a class="btn btn-sm btn-success" href="/finance/valider-devis?id={{ d.id_devis }}">Valider</a>
+                                    <a class="btn btn-sm btn-danger" href="/finance/rejeter-devis?id={{ d.id_devis }}">Rejeter</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

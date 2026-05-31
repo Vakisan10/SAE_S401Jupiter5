@@ -1,14 +1,59 @@
 {% extends "base.html" %}
-{% block title %}confirmation – Postal IUT{% endblock %}
-{% block sidebar_title %}Service Postal IUT{% endblock %}
+{% block title %}Confirmation – Postal Iut{% endblock %}
+{% block sidebar_title %}Postal IUT{% endblock %}
+{% block sidebar_subtitle %}Gestion des colis{% endblock %}
 {% block sidebar_nav %}
 <a href="/postal/dashboard">Tableau de bord</a>
-<a href="/postal/colis/recus">Colis reçus</a>
-<a href="/postal/colis/attente">En attente</a>
-<a href="/postal/colis/remis">Remis</a>
-<a href="/postal/colis/non-identifies">Non identifiés</a>
-<a href="/postal/colis/ajouter">Ajouter colis</a>
-<a href="/postal/colis/recherche">Recherche</a>
+<a href="/postal/colis-recus">Colis reçus</a>
+<a href="/postal/colis-attente">Colis en attente</a>
+<a href="/postal/colis-remis">Colis remis</a>
+<a href="/postal/colis-non-identifies">Non identifiés</a>
+<a href="/postal/ajouter-colis">Ajouter un colis</a>
 <a href="/postal/historique">Historique</a>
+<a href="/postal/recherche">Recherche</a>
 {% endblock %}
-{% block content %}<h1>confirmation</h1>{% endblock %}
+{% block content %}
+<div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Confirmation des colis</h1>
+            <p class="page-subtitle">Colis transferes par le service postal universitaire et en attente de confirmation a l'IUT</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>N° suivi</th>
+                        <th>Bon de commande</th>
+                        <th>Departement</th>
+                        <th>Date transfert</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not colis %}
+                        <tr>
+                            <td colspan="6" class="empty-state">Aucun colis a confirmer</td>
+                        </tr>
+                    {% else %}
+                        {% for c in colis %}
+                        <tr>
+                            <td>#{{ c.id_colis }}</td>
+                            <td>{{ c.numero_suivi }}</td>
+                            <td>{{ c.numero_commande }}</td>
+                            <td></td>
+                            <td>{{ c.date_reception }}</td>
+                            <td>
+                                <a class="btn btn-sm btn-primary" href="/postal/confirmer?id={{ c.id_colis }}">Confirmer reception</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

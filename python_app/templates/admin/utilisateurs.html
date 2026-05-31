@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-{% block title %}utilisateurs – Admin{% endblock %}
+{% block title %}Utilisateurs – Admin{% endblock %}
 {% block sidebar_title %}Administrateur{% endblock %}
+{% block sidebar_subtitle %}Gestion du système{% endblock %}
 {% block sidebar_nav %}
 <a href="/admin/dashboard">Tableau de bord</a>
 <a href="/admin/utilisateurs">Utilisateurs</a>
@@ -9,4 +10,66 @@
 <a href="/admin/devis">Tous les devis</a>
 <a href="/admin/colis">Tous les colis</a>
 {% endblock %}
-{% block content %}<h1>utilisateurs</h1>{% endblock %}
+{% block content %}
+<div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Gestion des utilisateurs</h1>
+            <p class="page-subtitle">Modifier les roles et departements des utilisateurs</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>UID CAS</th>
+                        <th>Role</th>
+                        <th>Departement</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not utilisateurs %}
+                        <tr><td colspan="6" class="empty-state">Aucun utilisateur</td></tr>
+                    {% else %}
+                        {% for u in utilisateurs %}
+                        <tr>
+                            <form method="post" action="/admin/update-utilisateur">
+                                <td><strong>{{ u.fullName }}</strong></td>
+                                <td>{{ u.email }}</td>
+                                <td>{{ u.uid_cas }}</td>
+                                <td>
+                                    <select name="role_id" class="form-select" style="min-width: 150px;">
+                                        {% for r in roles %}
+                                            <option value="{{ r.id_role }}" >
+                                                {{ r.libelle }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="departement_id" class="form-select" style="min-width: 150px;">
+                                        <option value="">—</option>
+                                        {% for d in departements %}
+                                            <option value="{{ d.id_departement }}" >
+                                                {{ d.nom }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="hidden" name="id_utilisateur" value="{{ u.id_utilisateur }}">
+                                    <button type="submit" class="btn btn-sm btn-primary">Enregistrer</button>
+                                </td>
+                            </form>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

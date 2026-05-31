@@ -1,13 +1,103 @@
 {% extends "base.html" %}
-{% block title %}fournisseurs – Département{% endblock %}
-{% block sidebar_title %}Mon Département{% endblock %}
+{% block title %}Fournisseurs – Departement{% endblock %}
+{% block sidebar_title %}Département{% endblock %}
+{% block sidebar_subtitle %}Gestion des commandes{% endblock %}
 {% block sidebar_nav %}
 <a href="/departement/dashboard">Tableau de bord</a>
-<a href="/departement/creer-devis">Créer un devis</a>
 <a href="/departement/mes-devis">Mes devis</a>
-<a href="/departement/bons-commande">Bons de commande</a>
+<a href="/departement/mes-bons-commande">Mes bons de commande</a>
 <a href="/departement/mes-colis">Mes colis</a>
-<a href="/departement/budget">Budget</a>
+<a href="/departement/creer-devis">Créer un devis</a>
 <a href="/departement/fournisseurs">Fournisseurs</a>
+<a href="/departement/budget">Budget</a>
 {% endblock %}
-{% block content %}<h1>fournisseurs</h1>{% endblock %}
+{% block content %}
+<div class="page-header-simple">
+        <a href="/departement/dashboard" class="back-button-simple">
+            <span class="back-arrow">&larr;</span>
+            Retour
+        </a>
+    </div>
+
+    <div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Fournisseurs Autorises</h1>
+            <p class="page-subtitle">Liste des fournisseurs valides par l'administration pour passer commande</p>
+        </div>
+    </div>
+
+    <div class="alert alert-info">
+        <span class="alert-icon-text">&#9432;</span>
+        <div class="alert-content">
+            <strong>Fournisseurs valides uniquement</strong><br>
+            Vous ne pouvez passer commande qu'aupres des fournisseurs listes ci-dessous. Ces partenaires ont ete valides par l'administration de l'IUT.
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="section-title">Liste des Fournisseurs ()</h2>
+            <span class="section-subtitle">Fournisseurs autorises pour vos commandes</span>
+        </div>
+
+        <div class="fournisseurs-grid">
+            {% if not fournisseurs %}
+                <div class="empty-state-card-simple">
+                    <span class="empty-icon">&#128230;</span>
+                    <p>Aucun fournisseur disponible</p>
+                </div>
+            {% else %}
+                {% for f in fournisseurs %}
+                    <div class="fournisseur-card-simple">
+                        <div class="fournisseur-card-header-simple">
+                            <div class="fournisseur-icon-simple">
+                                <span class="icon-text">&#127970;</span>
+                            </div>
+                            <div class="fournisseur-info">
+                                <h3 class="fournisseur-name">{{ f.nom }}</h3>
+                                <span class="badge badge-valide">Autorise</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">
+            <h2 class="section-title">Vue detaillee</h2>
+        </div>
+
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nom du fournisseur</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th>Telephone</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not fournisseurs %}
+                        <tr>
+                            <td colspan="5" class="empty-state">Aucun fournisseur trouve</td>
+                        </tr>
+                    {% else %}
+                        {% for f in fournisseurs %}
+                            <tr>
+                                <td><strong>{{ f.nom }}</strong></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><span class="badge badge-valide">Autorise</span></td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

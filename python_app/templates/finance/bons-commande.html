@@ -1,10 +1,47 @@
 {% extends "base.html" %}
-{% block title %}bons-commande – Finance{% endblock %}
-{% block sidebar_title %}Service Financier{% endblock %}
+{% block title %}Bons Commande – Finance{% endblock %}
+{% block sidebar_title %}Finance{% endblock %}
+{% block sidebar_subtitle %}Gestion budgétaire{% endblock %}
 {% block sidebar_nav %}
 <a href="/finance/dashboard">Tableau de bord</a>
-<a href="/finance/devis">Devis à vérifier</a>
+<a href="/finance/devis-a-verifier">Devis à vérifier</a>
 <a href="/finance/bons-commande">Bons de commande</a>
 <a href="/finance/budgets">Budgets</a>
 {% endblock %}
-{% block content %}<h1>bons-commande</h1>{% endblock %}
+{% block content %}
+<div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Bons de commande</h1>
+            <p class="page-subtitle">Historique des bons de commande valides</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>N° commande</th>
+                        <th>Date</th>
+                        <th>Montant</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not bons %}
+                        <tr><td colspan="4" class="empty-state">Aucun bon de commande</td></tr>
+                    {% else %}
+                        {% for b in bons %}
+                        <tr>
+                            <td><strong>{{ b.numero_commande }}</strong></td>
+                            <td>{{ b.date_commande }}</td>
+                            <td><span class="montant"> EUR</span></td>
+                            <td><span class="badge badge-"></span></td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

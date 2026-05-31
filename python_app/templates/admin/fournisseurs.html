@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-{% block title %}fournisseurs – Admin{% endblock %}
+{% block title %}Fournisseurs – Admin{% endblock %}
 {% block sidebar_title %}Administrateur{% endblock %}
+{% block sidebar_subtitle %}Gestion du système{% endblock %}
 {% block sidebar_nav %}
 <a href="/admin/dashboard">Tableau de bord</a>
 <a href="/admin/utilisateurs">Utilisateurs</a>
@@ -9,4 +10,74 @@
 <a href="/admin/devis">Tous les devis</a>
 <a href="/admin/colis">Tous les colis</a>
 {% endblock %}
-{% block content %}<h1>fournisseurs</h1>{% endblock %}
+{% block content %}
+<div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Gestion des fournisseurs</h1>
+            <p class="page-subtitle">Ajout, modification et suppression des fournisseurs</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="form-card">
+            <h3 class="form-title">Ajouter un fournisseur</h3>
+            <form method="post" action="/admin/ajouter-fournisseur">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Nom</label>
+                        <input type="text" name="nom" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nom du contact</label>
+                        <input type="text" name="contact_nom" class="form-input">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="contact_email" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Telephone</label>
+                        <input type="text" name="contact_telephone" class="form-input">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3 class="section-title">Liste des fournisseurs</h3>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th>Telephone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not fournisseurs %}
+                        <tr><td colspan="5" class="empty-state">Aucun fournisseur</td></tr>
+                    {% else %}
+                        {% for f in fournisseurs %}
+                        <tr>
+                            <td><strong>{{ f.nom }}</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <a class="btn btn-sm btn-secondary" href="/admin/modifier-fournisseur?id={{ f.id_fournisseur }}">Modifier</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

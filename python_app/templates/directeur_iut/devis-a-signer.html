@@ -1,9 +1,53 @@
 {% extends "base.html" %}
-{% block title %}devis-a-signer – Directeur{% endblock %}
-{% block sidebar_title %}Direction IUT{% endblock %}
+{% block title %}Devis A Signer – Directeur Iut{% endblock %}
+{% block sidebar_title %}Directeur IUT{% endblock %}
+{% block sidebar_subtitle %}Validation et signature{% endblock %}
 {% block sidebar_nav %}
 <a href="/directeur/dashboard">Tableau de bord</a>
 <a href="/directeur/devis">Devis à signer</a>
 <a href="/directeur/bons-commande">Bons de commande</a>
 {% endblock %}
-{% block content %}<h1>devis-a-signer</h1>{% endblock %}
+{% block content %}
+<div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Devis a signer</h1>
+            <p class="page-subtitle">Devis valides par le service financier</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Objet</th>
+                        <th>Montant estime</th>
+                        <th>Date demande</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not devis %}
+                        <tr><td colspan="5" class="empty-state">Aucun devis a signer</td></tr>
+                    {% else %}
+                        {% for d in devis %}
+                        <tr>
+                            <td>#{{ d.id_devis }}</td>
+                            <td><strong>{{ d.objet }}</strong></td>
+                            <td><span class="montant"> EUR</span></td>
+                            <td>{{ d.date_demande }}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a class="btn btn-sm btn-primary" href="/directeur/signer-devis?id={{ d.id_devis }}">Signer</a>
+                                    <a class="btn btn-sm btn-secondary" href="/directeur/voir-devis?id={{ d.id_devis }}" target="_blank">Voir</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-{% block title %}commandes – Admin{% endblock %}
+{% block title %}Commandes – Admin{% endblock %}
 {% block sidebar_title %}Administrateur{% endblock %}
+{% block sidebar_subtitle %}Gestion du système{% endblock %}
 {% block sidebar_nav %}
 <a href="/admin/dashboard">Tableau de bord</a>
 <a href="/admin/utilisateurs">Utilisateurs</a>
@@ -9,4 +10,62 @@
 <a href="/admin/devis">Tous les devis</a>
 <a href="/admin/colis">Tous les colis</a>
 {% endblock %}
-{% block content %}<h1>commandes</h1>{% endblock %}
+{% block content %}
+<div class="page-header">
+        <div class="page-header-info">
+            <h1 class="page-title">Bons de commande</h1>
+            <p class="page-subtitle">Liste de tous les bons de commande</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="stats-grid">
+            
+            <div class="stat-card">
+                <div class="stat-value">{{ count }}</div>
+                <div class="stat-label"></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="section">
+        <form method="get" class="search-form">
+            <input type="text" name="q" class="form-input" placeholder="Rechercher par numero..." value="">
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+        </form>
+    </div>
+
+    <div class="section">
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>N° Commande</th>
+                        <th>Departement</th>
+                        <th>Fournisseur</th>
+                        <th>Montant</th>
+                        <th>Statut</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not commandes %}
+                        <tr><td colspan="6" class="empty-state">Aucune commande</td></tr>
+                    {% else %}
+                        {% for c in commandes %}
+                        <tr>
+                            <td><strong>{{ c.numero_commande }}</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td> EUR</td>
+                            <td><span class="badge badge-{{ c.statut }}">{{ c.statut }}</span></td>
+                            <td>{{ c.date_commande }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
