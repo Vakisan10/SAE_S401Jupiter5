@@ -2,11 +2,12 @@ import os
 import sys
 sys.path.insert(0, os.path.dirname(__file__))
 
-from flask import Flask, session, redirect, request, render_template
+from flask import Flask, session, redirect, request, render_template, jsonify, abort
 from flask_session import Session
 from config.config import Config
 from controllers.routes import (admin_bp, postal_iut_bp, postal_univ_bp,
                                   departement_bp, finance_bp, directeur_bp)
+from services.notification_service import NotificationService
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -117,6 +118,23 @@ def dev_login():
 def logout():
     session.clear()
     return redirect("/dev-login" if Config.ENV == "development" else "/login")
+
+# ===== NOTIFICATIONS API =====
+@app.route("/api/notifications")
+def api_notifications():
+    user = session.get("user")
+    if not user:
+        return jsonify([])
+    notifs = NotificationService().get_notifications_non_lues(user.get("id_utilisateur"))
+    return jsonify([dict(n) for n in notifs])
+
+@app.route("/api/notifications/lire", methods=["POST"])
+def api_marquer_lues():
+    user = session.get("user")
+    if not user:
+        abort(401)
+    NotificationService().marquer_toutes_lues(user.get("id_utilisateur"))
+    return jsonify({"ok": True})
 
 # ===== ERREURS =====
 @app.errorhandler(404)

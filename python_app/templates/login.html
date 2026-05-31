@@ -35,10 +35,14 @@
             overflow: hidden;
         }
 
+        /* Background image with gradient overlay */
         body::before {
             content: '';
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background-image: url('/static/img/campus-iut.jpg');
             background-size: cover;
             background-position: center;
@@ -48,8 +52,11 @@
         body::after {
             content: '';
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, rgba(37,99,235,0.85) 0%, rgba(147,197,253,0.75) 50%, rgba(219,234,254,0.9) 100%);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.85) 0%, rgba(147, 197, 253, 0.75) 50%, rgba(219, 234, 254, 0.9) 100%);
             pointer-events: none;
         }
 
@@ -61,7 +68,9 @@
             z-index: 1;
         }
 
-        .logo-container { margin-bottom: 32px; }
+        .logo-container {
+            margin-bottom: 32px;
+        }
 
         .logo-icon {
             width: 88px;
@@ -91,10 +100,14 @@
             justify-content: center;
             border: 1px solid var(--border);
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
-        .logo-inner img { width: 70px; height: 70px; object-fit: contain; }
+        .logo-inner img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
 
         h1 {
             font-size: 32px;
@@ -104,7 +117,10 @@
             color: var(--text);
         }
 
-        .subtitle { color: var(--text-secondary); font-size: 15px; }
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
 
         .card {
             background: var(--bg-card);
@@ -113,7 +129,7 @@
             padding: 32px;
             margin-top: 32px;
             position: relative;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
         }
 
         .auth-badge {
@@ -122,7 +138,7 @@
             gap: 8px;
             padding: 8px 14px;
             background: var(--blue-bg);
-            border: 1px solid rgba(37,99,235,0.2);
+            border: 1px solid rgba(37, 99, 235, 0.2);
             border-radius: 20px;
             font-size: 12px;
             font-weight: 500;
@@ -130,7 +146,11 @@
             margin-bottom: 28px;
         }
 
-        .auth-badge svg { width: 14px; height: 14px; stroke: var(--blue); }
+        .auth-badge svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--blue);
+        }
 
         .login-btn {
             display: flex;
@@ -148,20 +168,36 @@
             cursor: pointer;
             text-decoration: none;
             transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .login-btn:hover {
             background: var(--blue-dark);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(37,99,235,0.25);
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.25);
         }
 
-        .login-btn:active { transform: translateY(0); }
-        .login-btn svg { width: 20px; height: 20px; }
+        .login-btn:active {
+            transform: translateY(0);
+        }
 
-        .help-text { margin-top: 24px; font-size: 13px; color: var(--text-muted); }
+        .login-btn svg {
+            width: 20px;
+            height: 20px;
+        }
 
-        .footer { margin-top: 48px; color: var(--text-muted); font-size: 12px; }
+        .help-text {
+            margin-top: 24px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .footer {
+            margin-top: 48px;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
 
         .footer-line {
             width: 40px;
@@ -179,6 +215,7 @@
             margin-top: 8px;
         }
 
+        /* Floating particles */
         .particle {
             position: fixed;
             width: 6px;

@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, request, redirect, session, abort
+from flask import Blueprint, render_template, request, redirect, session, abort, Response, jsonify
 from models.admin_models import AdminModels
 from models.other_models import PostalUnivModels, DepartementModels, FinanceModels, DirecteurModels
 from models.postal_iut_models import PostalIutModels
+from services.notification_service import NotificationService
 
 # ===== ADMIN =====
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
@@ -353,3 +354,80 @@ def devis_signature():
 @directeur_bp.route("/bons-commande")
 def bons_commande():
     return render_template("directeur_iut/bons-commande.html", bons=DirecteurModels().get_tous_les_bons_commande())
+
+@finance_bp.route("/voir-devis")
+def voir_devis():
+    id = request.args.get("id", type=int)
+    if not id:
+        abort(400)
+    devis = FinanceModels().get_devis_complet(id)
+    if not devis:
+        abort(404)
+    try:
+        from services.pdf_generator import PdfGenerator
+        pdf_bytes = PdfGenerator().generer_devis(devis)
+        filename = f"Devis_{str(id).zfill(4)}.pdf"
+        return Response(
+            pdf_bytes,
+            mimetype="application/pdf",
+            headers={"Content-Disposition": f"inline; filename={filename}"}
+        )
+    except ImportError:
+        return "Génération PDF non disponible (reportlab non installé)", 501
+
+
+@directeur_bp.route("/voir-devis")
+def voir_devis():
+    id = request.args.get("id", type=int)
+    if not id:
+        abort(400)
+    devis = DirecteurModels().get_devis_complet(id)
+    if not devis:
+        abort(404)
+    try:
+        from services.pdf_generator import PdfGenerator
+        pdf_bytes = PdfGenerator().generer_devis(devis)
+        filename = f"Devis_{str(id).zfill(4)}.pdf"
+        return Response(
+            pdf_bytes,
+
+@finance_bp.route("/voir-devis")
+def voir_devis():
+    id = request.args.get("id", type=int)
+    if not id:
+        abort(400)
+    devis = FinanceModels().get_devis_complet(id)
+    if not devis:
+        abort(404)
+    try:
+        from services.pdf_generator import PdfGenerator
+        pdf_bytes = PdfGenerator().generer_devis(devis)
+        filename = f"Devis_{str(id).zfill(4)}.pdf"
+        return Response(
+            pdf_bytes,
+            mimetype="application/pdf",
+            headers={"Content-Disposition": f"inline; filename={filename}"}
+        )
+    except ImportError:
+        return "Génération PDF non disponible (reportlab non installé)", 501
+
+
+@directeur_bp.route("/voir-devis")
+def voir_devis_directeur():
+    id = request.args.get("id", type=int)
+    if not id:
+        abort(400)
+    devis = DirecteurModels().get_devis_complet(id)
+    if not devis:
+        abort(404)
+    try:
+        from services.pdf_generator import PdfGenerator
+        pdf_bytes = PdfGenerator().generer_devis(devis)
+        filename = f"Devis_{str(id).zfill(4)}.pdf"
+        return Response(
+            pdf_bytes,
+            mimetype="application/pdf",
+            headers={"Content-Disposition": f"inline; filename={filename}"}
+        )
+    except ImportError:
+        return "Génération PDF non disponible (reportlab non installé)", 501
