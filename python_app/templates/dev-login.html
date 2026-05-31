@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Dev Login</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body class="tableau-bord">
+<main class="contenu" style="max-width:600px; margin:60px auto;">
+
+    <div class="page-header">
+        <h1 class="page-title">Connexion développement</h1>
+        <p class="page-subtitle">Sélectionnez un utilisateur pour simuler une connexion</p>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST" action="/dev-login">
+        <div class="section">
+            <label><strong>Choisir un utilisateur :</strong></label>
+            <select name="uid_cas" class="form-control" style="margin:10px 0; padding:8px; width:100%;">
+                {% for u in utilisateurs %}
+                <option value="{{ u.uid_cas }}">
+                    [{{ u.role | upper }}] {{ u.fullName }} — {{ u.email }}
+                </option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary" style="margin-top:10px;">Se connecter</button>
+        </div>
+    </form>
+
+</main>
+</body>
+</html>

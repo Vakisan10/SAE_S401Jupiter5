@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SAE Colis{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="tableau-bord">
+
+<aside class="barre-laterale">
+    <div class="entete-barre">
+        <h2>{% block sidebar_title %}Menu{% endblock %}</h2>
+        <p>{% block sidebar_subtitle %}{% endblock %}</p>
+    </div>
+    <nav class="menu">
+        {% block sidebar_nav %}{% endblock %}
+    </nav>
+    <div class="deconnexion">
+        <a href="/logout">Déconnexion</a>
+    </div>
+</aside>
+
+<main class="contenu">
+    {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>

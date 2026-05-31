@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}colis-attente – Postal IUT{% endblock %}
+{% block sidebar_title %}Service Postal IUT{% endblock %}
+{% block sidebar_nav %}
+<a href="/postal/dashboard">Tableau de bord</a>
+<a href="/postal/colis/recus">Colis reçus</a>
+<a href="/postal/colis/attente">En attente</a>
+<a href="/postal/colis/remis">Remis</a>
+<a href="/postal/colis/non-identifies">Non identifiés</a>
+<a href="/postal/colis/ajouter">Ajouter colis</a>
+<a href="/postal/colis/recherche">Recherche</a>
+<a href="/postal/historique">Historique</a>
+{% endblock %}
+{% block content %}<h1>colis-attente</h1>{% endblock %}

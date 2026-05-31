@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard – Administrateur{% endblock %}
+
+{% block sidebar_title %}Administrateur{% endblock %}
+{% block sidebar_subtitle %}Gestion du système{% endblock %}
+
+{% block sidebar_nav %}
+<a class="actif" href="/admin/dashboard">Tableau de bord</a>
+<a href="/admin/utilisateurs">Utilisateurs</a>
+<a href="/admin/departements">Départements</a>
+<a href="/admin/fournisseurs">Fournisseurs</a>
+<a href="/admin/devis">Tous les devis</a>
+<a href="/admin/colis">Tous les colis</a>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="page-header-info">
+        <h1 class="page-title">Tableau de bord</h1>
+        <p class="page-subtitle">Vue globale du système</p>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-label">Utilisateurs</span>
+        <div class="stat-value">{{ stats.utilisateurs }}</div>
+        <div class="stat-description">Total</div>
+    </div>
+    <div class="stat-card stat-blue">
+        <span class="stat-label">Devis</span>
+        <div class="stat-value">{{ stats.devis }}</div>
+        <div class="stat-description">Total</div>
+    </div>
+    <div class="stat-card stat-warning">
+        <span class="stat-label">Bons de commande</span>
+        <div class="stat-value">{{ stats.bons }}</div>
+        <div class="stat-description">Total</div>
+    </div>
+    <div class="stat-card stat-success">
+        <span class="stat-label">Colis</span>
+        <div class="stat-value">{{ stats.colis }}</div>
+        <div class="stat-description">Total</div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-header">
+        <h2 class="section-title">Répartition des utilisateurs par rôle</h2>
+    </div>
+    <div class="table-container">
+        <table class="data-table">
+            <thead><tr><th>Rôle</th><th>Nombre</th></tr></thead>
+            <tbody>
+                {% if not roles %}
+                <tr><td colspan="2" class="empty-state">Aucun rôle trouvé</td></tr>
+                {% else %}
+                {% for r in roles %}
+                <tr>
+                    <td><strong>{{ r.libelle | capitalize }}</strong></td>
+                    <td>{{ r.total }}</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
