@@ -87,20 +87,29 @@ def dev_login():
         error = str(e)
 
     if request.method == "POST":
-        uid = request.form.get("uid_cas")
-        try:
-            with get_db().cursor() as c:
-                c.execute("""SELECT u.id_utilisateur, u.uid_cas, u.fullName, u.email,
-                                    r.libelle as role, u.departement_id
-                             FROM utilisateur u JOIN role r ON u.role_id=r.id_role
-                             WHERE u.uid_cas=%s""", (uid,))
-                user = c.fetchone()
-            if user:
-                session["user"] = user
-                return redirect(ROLE_REDIRECTS.get(user["role"], "/departement/dashboard"))
-            error = "Utilisateur introuvable"
-        except Exception as e:
-            error = str(e)
+        uid = request.form.get("uid") or request.form.get("uid_cas")
+        role_form = request.form.get("role", "departement")
+        if not uid:
+            error = "Veuillez entrer un identifiant."
+        else:
+            try:
+                with get_db().cursor() as c:
+                    c.execute("""SELECT u.id_utilisateur, u.uid_cas, u.fullName, u.email,
+                                        r.libelle as role, u.departement_id
+                                 FROM utilisateur u JOIN role r ON u.role_id=r.id_role
+                                 WHERE u.uid_cas=%s""", (uid,))
+                    user = c.fetchone()
+                if user:
+                    session["user"] = user
+                    return redirect(ROLE_REDIRECTS.get(user["role"], "/departement/dashboard"))
+                session["user"] = {
+                    "id_utilisateur": None, "uid_cas": uid,
+                    "fullName": "Dev User - " + uid, "email": uid + "@dev.local",
+                    "role": role_form, "departement_id": None,
+                }
+                return redirect(ROLE_REDIRECTS.get(role_form, "/departement/dashboard"))
+            except Exception as e:
+                error = str(e)
 
     return render_template("dev-login.html", utilisateurs=utilisateurs, error=error)
 
