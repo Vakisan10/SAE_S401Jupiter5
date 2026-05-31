@@ -54,6 +54,19 @@ def index():
     role = session["user"].get("role", "departement")
     return redirect(ROLE_REDIRECTS.get(role, "/departement/dashboard"))
 
+@app.route("/login")
+def login():
+    if "user" in session:
+        role = session["user"].get("role", "departement")
+        return redirect(ROLE_REDIRECTS.get(role, "/departement/dashboard"))
+    if Config.ENV == "development":
+        return redirect("/dev-login")
+    # En production : affichage de la page CAS
+    if request.args.get("auth") == "cas":
+        # TODO: implémenter l'authentification CAS ici
+        return redirect("/dev-login")
+    return render_template("login.html")
+
 @app.route("/dev-login", methods=["GET", "POST"])
 def dev_login():
     if Config.ENV != "development":

@@ -346,6 +346,10 @@ def signer_devis():
 def devis_a_signer():
     return render_template("directeur_iut/devis-a-signer.html", devis=DirecteurModels().get_devis_a_valider())
 
+@directeur_bp.route("/devis-signature")
+def devis_signature():
+    return render_template("directeur_iut/devis-signature.html", devis=DirecteurModels().get_devis_a_valider())
+
 @directeur_bp.route("/bons-commande")
 def bons_commande():
     return render_template("directeur_iut/bons-commande.html", bons=DirecteurModels().get_tous_les_bons_commande())
